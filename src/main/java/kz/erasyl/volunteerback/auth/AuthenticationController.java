@@ -2,6 +2,7 @@ package kz.erasyl.volunteerback.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import kz.erasyl.volunteerback.repos.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     @SneakyThrows
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+            @RequestBody @Valid RegisterRequest request
     ){
         if (userRepository.findByUsername(request.getUsername()).isPresent()){
             throw new ServiceException("Username already in use, please try another username, or log in by existing");
@@ -34,7 +35,7 @@ public class AuthenticationController {
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
+            @RequestBody @Valid AuthenticationRequest request
     ){
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
