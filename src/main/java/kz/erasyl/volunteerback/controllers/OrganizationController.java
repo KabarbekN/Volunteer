@@ -3,6 +3,7 @@ package kz.erasyl.volunteerback.controllers;
 
 import kz.erasyl.volunteerback.models.Organization;
 import kz.erasyl.volunteerback.services.OrganizationService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,4 +19,10 @@ public class OrganizationController {
     public ResponseEntity<?> createOrganization(@RequestBody Organization organization) {
         return ResponseEntity.ok(organizationService.createOrganization(organization));
     }
+
+    @GetMapping("/")
+    public ResponseEntity<?> getAllOrganizations() {
+        return ResponseEntity.ok(organizationService.getAllOrganizations());
+    }
+
 }

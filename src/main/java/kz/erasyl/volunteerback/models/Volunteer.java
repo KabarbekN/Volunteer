@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 
 @Entity
 @Data
@@ -19,5 +21,19 @@ public class Volunteer {
     private Long id;
     @OneToOne
     private User user;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String address;
+    private String city;
+    private String aboutMe;
+
+    private LocalDate birthday;
+    private String gender;
+    private Integer experienceMonth;
+
+
 
 }

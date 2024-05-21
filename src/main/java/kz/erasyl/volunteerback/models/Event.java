@@ -33,6 +33,7 @@ public class Event {
     private Long eventStartDate;
     private Long eventEndDate;
 
+    private String city;
     @Enumerated(EnumType.STRING)
     private EventType eventType;
 
