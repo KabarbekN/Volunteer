@@ -54,7 +54,7 @@ public class OrganizationService {
             organization.setAddress(request.getAddress());
             organization.setPhone(request.getPhone());
             organization.setEmail(request.getEmail());
-            organization.setOwner(request.getOwner());
+//            organization.setOwner(request.getOwner());
             organization.setBin(request.getBin());
             organization.setCity(request.getCity());
             return organizationRepository.save(organization);
