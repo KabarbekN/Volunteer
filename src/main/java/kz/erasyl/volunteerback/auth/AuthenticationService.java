@@ -4,9 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kz.erasyl.volunteerback.configs.JwtService;
+import kz.erasyl.volunteerback.models.Organization;
 import kz.erasyl.volunteerback.models.User;
+import kz.erasyl.volunteerback.models.Volunteer;
 import kz.erasyl.volunteerback.models.enums.Role;
+import kz.erasyl.volunteerback.repos.OrganizationRepository;
 import kz.erasyl.volunteerback.repos.UserRepository;
+import kz.erasyl.volunteerback.repos.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +30,9 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final VolunteerRepository volunteerRepository;
+    private final OrganizationRepository organizationRepository;
+
     public AuthenticationResponse register(RegisterRequest request){
         User user = User.builder()
                 .username(request.getUsername())
@@ -35,6 +42,15 @@ public class AuthenticationService {
         var savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
+
+        if (request.getRole() == Role.VOLUNTEER){
+            volunteerRepository.save(Volunteer.builder().user(savedUser).build());
+        }
+        if (request.getRole() == Role.ORGANIZATION){
+            organizationRepository.save(Organization.builder().owner(savedUser).build());
+        }
+
+//        volunteerRepository.save(Volunteer.builder().user(savedUser).build());
 
         log.info(savedUser.getUsername() + ": registered");
         return AuthenticationResponse.builder()

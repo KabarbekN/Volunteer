@@ -2,7 +2,10 @@ package kz.erasyl.volunteerback.services;
 
 
 import kz.erasyl.volunteerback.models.Organization;
+import kz.erasyl.volunteerback.models.User;
+import kz.erasyl.volunteerback.models.enums.Role;
 import kz.erasyl.volunteerback.repos.OrganizationRepository;
+import kz.erasyl.volunteerback.repos.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrganizationService {
     private final OrganizationRepository organizationRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     public Organization findOrganizationById(Long id) {
         return organizationRepository.findById(id).orElseThrow(
@@ -20,14 +25,22 @@ public class OrganizationService {
     }
 
     public Organization createOrganization(Organization request) {
+
+//        if (userRepository.findById(
+//                request.getOwner().getUserId()).get()
+//                .getRole().equals(Role.ORGANIZATION
+//        )){
+//
+//        }
         Organization organization = new Organization();
         organization.setName(request.getName());
         organization.setDescription(request.getDescription());
         organization.setAddress(request.getAddress());
         organization.setPhone(request.getPhone());
         organization.setEmail(request.getEmail());
-        organization.setOwner(request.getOwner());
+        organization.setOwner(userRepository.findById(request.getOwner().getUserId()).get());
         organization.setBin(request.getBin());
+        organization.setCity(request.getCity());
         return organizationRepository.save(organization);
     }
 
@@ -43,6 +56,7 @@ public class OrganizationService {
             organization.setEmail(request.getEmail());
             organization.setOwner(request.getOwner());
             organization.setBin(request.getBin());
+            organization.setCity(request.getCity());
             return organizationRepository.save(organization);
         }
         else{
@@ -51,7 +65,14 @@ public class OrganizationService {
     }
 
 
+
+
     public List<Organization> getAllOrganizations() {
         return organizationRepository.findAll();
+    }
+
+    public Organization getOrganizationByUsername(String username) {
+        User user = userService.getUserByUsername(username);
+        return organizationRepository.findByOwner(user);
     }
 }

@@ -1,13 +1,11 @@
 package kz.erasyl.volunteerback.controllers;
 
 
+import kz.erasyl.volunteerback.models.Volunteer;
 import kz.erasyl.volunteerback.services.VolunteerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,4 +18,20 @@ public class VolunteerController {
     public ResponseEntity<?> getVolunteerByUsername(@RequestParam String username) {
         return ResponseEntity.ok(volunteerService.getVolunteerByName(username));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getVolunteerById(@PathVariable Long id) {
+        return ResponseEntity.ok(volunteerService.getVolunteerById(id));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getVolunteerByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(volunteerService.getVolunteerByUserId(userId));
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateVolunteerByUsername(@RequestBody Volunteer volunteer) {
+        return ResponseEntity.ok(volunteerService.updateVolunteer(volunteer));
+    }
+
 }

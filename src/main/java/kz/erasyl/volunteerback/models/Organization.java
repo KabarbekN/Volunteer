@@ -3,11 +3,13 @@ package kz.erasyl.volunteerback.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import kz.erasyl.volunteerback.models.enums.City;
 import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
 @AllArgsConstructor
@@ -19,7 +21,8 @@ public class Organization {
     @Column(name = "organizationId")
     private Long organizationId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User owner;
 
     private String name;
@@ -28,6 +31,13 @@ public class Organization {
     private String phone;
     private String email;
     private String bin;
+    @Enumerated(EnumType.STRING)
+    private City city;
+    private boolean isApproved;
+
+    @OneToMany(mappedBy = "organization")
+    @JsonIgnore
+    private List<Event> events;
 
 //    @OneToMany(mappedBy = "organization")
 //    private List<Event> events;

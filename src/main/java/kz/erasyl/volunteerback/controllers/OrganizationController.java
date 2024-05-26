@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class OrganizationController {
     private final OrganizationService organizationService;
 
-
     @PostMapping
     public ResponseEntity<?> createOrganization(@RequestBody Organization organization) {
         return ResponseEntity.ok(organizationService.createOrganization(organization));
@@ -23,6 +22,21 @@ public class OrganizationController {
     @GetMapping("/")
     public ResponseEntity<?> getAllOrganizations() {
         return ResponseEntity.ok(organizationService.getAllOrganizations());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrganizationById(@PathVariable Long id) {
+        return ResponseEntity.ok(organizationService.findOrganizationById(id));
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateOrganization(@RequestBody Organization organization) {
+        return ResponseEntity.ok(organizationService.updateOrganization(organization));
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<?> getOrganizationByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(organizationService.getOrganizationByUsername(username));
     }
 
 }

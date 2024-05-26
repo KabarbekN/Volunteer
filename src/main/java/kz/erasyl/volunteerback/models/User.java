@@ -1,6 +1,8 @@
 package kz.erasyl.volunteerback.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import kz.erasyl.volunteerback.models.enums.Role;
 import lombok.*;
@@ -15,16 +17,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class User implements UserDetails {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
     private String username;
     @JsonIgnore
@@ -39,9 +41,9 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    @ManyToMany(mappedBy = "volunteers")
+    @OneToOne(mappedBy = "owner")
     @JsonIgnore
-    private List<Event> events;
+    private Organization organization;
 
     @Override
     public String getPassword() {
