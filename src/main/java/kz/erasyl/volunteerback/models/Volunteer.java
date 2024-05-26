@@ -41,6 +41,8 @@ public class Volunteer {
     private LocalDate birthday;
     private String gender;
     private Integer experienceMonth;
+    private Float rating;
+    private Integer numberOfRates;
 
     @OneToMany(mappedBy = "volunteer")
     @JsonIgnore

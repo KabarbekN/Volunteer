@@ -50,6 +50,8 @@ public class Event {
 
     private Boolean active;
 
+    private String link;
+
     @OneToMany(mappedBy = "event")
     @JsonIgnore
     private Set<VolunteerEventRegistration> registrations;

@@ -38,6 +38,8 @@ public class EventService {
         event.setEventStatus(EventStatus.OPEN);
         event.setCity(request.getCity());
         event.setApproved(true);
+        event.setLink(request.getLink());
+        event.setActive(true);
 
         // todo
 //        if (!request.getVolunteers().isEmpty()){
