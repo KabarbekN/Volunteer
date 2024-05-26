@@ -38,7 +38,7 @@ public class Organization {
     @OneToMany(mappedBy = "organization")
     @JsonIgnore
     private List<Event> events;
-
+    
 //    @OneToMany(mappedBy = "organization")
 //    private List<Event> events;
 

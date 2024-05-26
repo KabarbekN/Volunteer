@@ -34,4 +34,9 @@ public class VolunteerController {
         return ResponseEntity.ok(volunteerService.updateVolunteer(volunteer));
     }
 
+    @GetMapping("/")
+    public ResponseEntity<?> getAllVolunteers() {
+        return ResponseEntity.ok(volunteerService.getAllVolunteers());
+    }
+
 }

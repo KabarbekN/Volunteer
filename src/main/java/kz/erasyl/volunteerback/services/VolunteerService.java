@@ -11,6 +11,8 @@ import lombok.SneakyThrows;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class VolunteerService {
@@ -42,5 +44,9 @@ public class VolunteerService {
         System.out.println(volunteer.toString());
         return volunteerRepository.save(volunteer);
 //        return new Volunteer();
+    }
+
+    public List<Volunteer> getAllVolunteers() {
+        return volunteerRepository.findAll();
     }
 }
