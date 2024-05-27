@@ -4,6 +4,7 @@ package kz.erasyl.volunteerback.admin;
 import kz.erasyl.volunteerback.models.Event;
 import kz.erasyl.volunteerback.models.Organization;
 import kz.erasyl.volunteerback.models.User;
+import kz.erasyl.volunteerback.repos.EventRepository;
 import kz.erasyl.volunteerback.services.EventService;
 import kz.erasyl.volunteerback.services.OrganizationService;
 import kz.erasyl.volunteerback.services.UserService;
@@ -18,6 +19,7 @@ public class AdminService {
     private final OrganizationService organizationService;
     private final UserService userService;
     private final EventService eventService;
+    private final EventRepository eventRepository;
 
     public List<Organization> getAllOrganizations() {
         return organizationService.getAllOrganizations();
@@ -27,6 +29,7 @@ public class AdminService {
         return userService.getAllUsers();
     }
     public List<Event> getAllEvents() {
-        return eventService.getAllEvents();
+
+        return eventRepository.findAll();
     }
 }

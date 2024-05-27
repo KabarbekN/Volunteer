@@ -44,10 +44,10 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
 
         if (request.getRole() == Role.VOLUNTEER){
-            volunteerRepository.save(Volunteer.builder().user(savedUser).build());
+            volunteerRepository.save(Volunteer.builder().user(savedUser).numberOfRates(0).rating(5F).build());
         }
         if (request.getRole() == Role.ORGANIZATION){
-            organizationRepository.save(Organization.builder().owner(savedUser).build());
+            organizationRepository.save(Organization.builder().owner(savedUser).numberOfRates(0).rating(5F).build());
         }
 
 //        volunteerRepository.save(Volunteer.builder().user(savedUser).build());

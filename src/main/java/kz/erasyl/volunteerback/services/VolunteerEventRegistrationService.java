@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +82,15 @@ public class VolunteerEventRegistrationService {
                 events.add(volunteerEventRegistration.getEvent())
         );
         return events;
+    }
+
+    public Set<Volunteer> getAllVolunteersOfOrganizationById(Long organizationId) {
+        Set<Volunteer> volunteers = new HashSet<>();
+        List<Event> events = eventService.getEventsByOrganizationId(organizationId);
+        for (Event event : events) {
+            volunteers.addAll(getAllVolunteersByEventId(event.getEventId()));
+        }
+        return volunteers;
     }
 
 }

@@ -7,6 +7,7 @@ import kz.erasyl.volunteerback.models.enums.City;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -42,7 +43,9 @@ public class Organization {
     private Float rating;
     private Integer numberOfRates;
 
-
+    @OneToMany(mappedBy = "organization")
+    @JsonIgnore
+    private Set<VolunteerOrganizationRating> volunteerOrganizationRating;
 
 //    @OneToMany(mappedBy = "organization")
 //    private List<Event> events;

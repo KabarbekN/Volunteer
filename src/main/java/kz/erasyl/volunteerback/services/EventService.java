@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -104,7 +106,7 @@ public class EventService {
 
     public List<Event> getAllEvents(){
 //        System.out.println("true");
-        return eventRepository.findAll();
+        return eventRepository.findAll().stream().filter(Event::getActive).toList();
 //    return null;
     }
 

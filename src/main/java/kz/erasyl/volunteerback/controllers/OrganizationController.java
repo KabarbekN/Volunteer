@@ -3,6 +3,7 @@ package kz.erasyl.volunteerback.controllers;
 
 import kz.erasyl.volunteerback.models.Organization;
 import kz.erasyl.volunteerback.services.OrganizationService;
+import kz.erasyl.volunteerback.services.VolunteerEventRegistrationService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class OrganizationController {
     private final OrganizationService organizationService;
+    private final VolunteerEventRegistrationService volunteerEventRegistrationService;
 
     @PostMapping
     public ResponseEntity<?> createOrganization(@RequestBody Organization organization) {
@@ -37,6 +39,11 @@ public class OrganizationController {
     @GetMapping("/username/{username}")
     public ResponseEntity<?> getOrganizationByUsername(@PathVariable String username) {
         return ResponseEntity.ok(organizationService.getOrganizationByUsername(username));
+    }
+
+    @GetMapping("/volunteers")
+    public ResponseEntity<?> getAllVolunteersOfOrganization(@RequestParam Long organizationId) {
+        return ResponseEntity.ok(volunteerEventRegistrationService.getAllVolunteersOfOrganizationById(organizationId));
     }
 
 }

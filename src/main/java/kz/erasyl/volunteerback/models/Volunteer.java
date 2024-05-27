@@ -21,10 +21,10 @@ import java.util.Set;
 public class Volunteer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "volunteerId")
     private Long volunteerId;
 
     @OneToOne(fetch = FetchType.EAGER)
-
     private User user;
 
 
@@ -43,10 +43,15 @@ public class Volunteer {
     private Integer experienceMonth;
     private Float rating;
     private Integer numberOfRates;
+    private Boolean banned;
 
     @OneToMany(mappedBy = "volunteer")
     @JsonIgnore
     Set<VolunteerEventRegistration> registrations;
+
+    @OneToMany(mappedBy = "volunteer")
+    @JsonIgnore
+    private Set<VolunteerOrganizationRating> volunteerOrganizationRating;
 
 //        @ManyToMany(mappedBy = "volunteers")
 //        @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "volunteerId")
