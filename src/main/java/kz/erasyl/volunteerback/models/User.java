@@ -35,6 +35,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+//    @Lob
+//    @Basic(fetch = FetchType.LAZY)
+//    @Column(name = "avatar", columnDefinition="BYTEA")
+//    @JsonIgnore
+//    private byte[] avatar;
+
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -77,5 +83,10 @@ public class User implements UserDetails {
     @JsonIgnore
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString(){
+        return username;
     }
 }

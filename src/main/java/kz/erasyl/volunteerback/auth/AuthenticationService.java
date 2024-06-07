@@ -42,8 +42,11 @@ public class AuthenticationService {
         var savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
+        System.out.println(request.getRole());
+        System.out.println(Role.VOLUNTEER);
 
         if (request.getRole() == Role.VOLUNTEER){
+            System.out.println("NURGSISIISIAIO");
             volunteerRepository.save(Volunteer.builder().user(savedUser).numberOfRates(0).rating(5F).build());
         }
         if (request.getRole() == Role.ORGANIZATION){

@@ -25,5 +25,4 @@ public class AdminController {
     public ResponseEntity<?> getAllEvents(){
         return ResponseEntity.ok(adminService.getAllEvents());
     }
-
 }

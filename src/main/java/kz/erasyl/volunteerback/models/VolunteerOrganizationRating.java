@@ -26,4 +26,8 @@ public class VolunteerOrganizationRating {
     private Integer volunteerRating;
 
     private Integer organizationRating;
+
+    private String volunteerFeedback;
+
+    private String organizationFeedback;
 }

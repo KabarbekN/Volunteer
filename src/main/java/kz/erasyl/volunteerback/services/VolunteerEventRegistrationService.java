@@ -1,10 +1,7 @@
 package kz.erasyl.volunteerback.services;
 
 
-import kz.erasyl.volunteerback.models.Event;
-import kz.erasyl.volunteerback.models.User;
-import kz.erasyl.volunteerback.models.Volunteer;
-import kz.erasyl.volunteerback.models.VolunteerEventRegistration;
+import kz.erasyl.volunteerback.models.*;
 import kz.erasyl.volunteerback.repos.VolunteerEventRegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -76,11 +73,14 @@ public class VolunteerEventRegistrationService {
 
     public List<Event> getAllEventsByVolunteerUsername(String username) {
         Volunteer volunteer = volunteerService.getVolunteerByName(username);
+
         List<VolunteerEventRegistration> volunteerEventRegistrations =  volunteerEventRegistrationRepository.findByVolunteer(volunteer);
+
         List<Event> events = new ArrayList<>();
         volunteerEventRegistrations.forEach(volunteerEventRegistration ->
                 events.add(volunteerEventRegistration.getEvent())
         );
+
         return events;
     }
 
@@ -91,6 +91,15 @@ public class VolunteerEventRegistrationService {
             volunteers.addAll(getAllVolunteersByEventId(event.getEventId()));
         }
         return volunteers;
+    }
+
+    public Set<Organization> getAllOrganizationsOfVolunteer(String username) {
+        Set<Organization> organizations = new HashSet<>();
+        List<Event> events = getAllEventsByVolunteerUsername(username);
+        for (Event event : events) {
+            organizations.add(event.getOrganization());
+        }
+        return organizations;
     }
 
 }

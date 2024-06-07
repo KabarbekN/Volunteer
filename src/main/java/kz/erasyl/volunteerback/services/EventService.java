@@ -74,6 +74,8 @@ public class EventService {
         event.setEventEndDate(request.getEventEndDate());
 
         event.setEventStatus(EventStatus.OPEN);
+        event.setActive(true);
+        event.setLink(request.getLink());
 
         event.setOrganization(organizationService.findOrganizationById(1L));
 
@@ -106,7 +108,7 @@ public class EventService {
 
     public List<Event> getAllEvents(){
 //        System.out.println("true");
-        return eventRepository.findAll().stream().filter(Event::getActive).toList();
+        return eventRepository.findAll().stream().filter(Event::isApproved).filter(Event::getActive).toList();
 //    return null;
     }
 

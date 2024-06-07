@@ -8,9 +8,11 @@ import kz.erasyl.volunteerback.requests.ChangePasswordRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JdbcTemplate jdbcTemplate;
 
 
     public User getUserById(Long id) {
@@ -56,7 +59,27 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(changePasswordRequest.getConfirmationPassword()));
         log.info("users new password was saved");
         userRepository.save(user);
-
     }
 
+//    @SneakyThrows
+//    public void saveAvatar(MultipartFile file, Principal connectedUser){
+//        var user =  (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+//
+//        User userFromDb = getUserByUsername(user.getUsername());
+//        String sql = "UPDATE users SET avatar = ? WHERE user_id = ?";
+//        jdbcTemplate.update(sql, file.getBytes(), userFromDb.getUserId());
+//
+//
+////        userFromDb.setAvatar(file.getBytes());
+////        userRepository.save(userFromDb);
+//    }
+//
+//    public byte[] getUserAvatar(Principal connectedUser) {
+//        String username = connectedUser.getName();
+//
+//        return userRepository.findByUsername(username)
+//                .map(User::getAvatar)
+//                .orElse(null);
+//
+//    }
 }

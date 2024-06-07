@@ -7,9 +7,13 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class CreateRatingDto {
     private Long organizationId;
     private Long volunteerId;
     private Integer volunteerRating;
     private Integer organizationRating;
+    private String volunteerFeedback;
+    private String organizationFeedback;
+
 }

@@ -37,5 +37,10 @@ public class VolunteerEventRegistrationController {
         return ResponseEntity.ok(eventRegistrationService.getAllVolunteersByEventId(id));
     }
 
+    @GetMapping("/organization/volunteer/{username}")
+    public ResponseEntity<?> getAppliedOrganizationsOfVolunteer(@PathVariable String username) {
+        return ResponseEntity.ok(eventRegistrationService.getAllOrganizationsOfVolunteer(username));
+    }
+
 
 }
