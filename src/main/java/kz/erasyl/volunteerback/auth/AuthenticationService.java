@@ -11,6 +11,8 @@ import kz.erasyl.volunteerback.models.enums.Role;
 import kz.erasyl.volunteerback.repos.OrganizationRepository;
 import kz.erasyl.volunteerback.repos.UserRepository;
 import kz.erasyl.volunteerback.repos.VolunteerRepository;
+import kz.erasyl.volunteerback.services.EmailSenderService;
+import kz.erasyl.volunteerback.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -20,34 +22,44 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
+
 
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final VolunteerRepository volunteerRepository;
     private final OrganizationRepository organizationRepository;
+    private final EmailSenderService emailSenderService;
+    private final UserService userService;
 
     public AuthenticationResponse register(RegisterRequest request){
+        String confirmationToken = UUID.randomUUID().toString();
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
+                .confirmationToken(confirmationToken)
+                .isEmailVerified(false)
                 .build();
         var savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        System.out.println(request.getRole());
-        System.out.println(Role.VOLUNTEER);
+
+        sendConfirmationMessage(request.getEmail(), confirmationToken);
+
 
         if (request.getRole() == Role.VOLUNTEER){
-            System.out.println("NURGSISIISIAIO");
-            volunteerRepository.save(Volunteer.builder().user(savedUser).numberOfRates(0).rating(5F).build());
+            volunteerRepository.save(Volunteer.builder().user(savedUser).email(request.getEmail()).numberOfRates(0).rating(5F).build());
         }
         if (request.getRole() == Role.ORGANIZATION){
             organizationRepository.save(Organization.builder().owner(savedUser).numberOfRates(0).rating(5F).build());
@@ -108,5 +120,29 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    public void sendConfirmationMessage(String email, String token) {
+                executorService.submit(() -> {
+
+                    String subject = "Confirmation Message";
+                    String confirmationUrl = "http://localhost:8080/api/v1/auth/confirm?token=" + token;
+                    String body = "Please click the following link to confirm your email: " + confirmationUrl;
+
+                    emailSenderService.sendEmail(email, subject, body);
+                });
+    }
+
+    public boolean confirmEmail(String token){
+//        executorService.submit(() -> {
+            User user = userService.findUserByConfirmationToken(token);
+            if (user != null){
+                user.setConfirmationToken(null);
+                user.setEmailVerified(true);
+                userRepository.save(user);
+                return true;
+            }
+            return false;
+//        });
     }
 }

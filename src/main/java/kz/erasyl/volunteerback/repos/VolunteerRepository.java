@@ -17,4 +17,5 @@ public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
     Volunteer findByUser(User user);
 
 
+
 }

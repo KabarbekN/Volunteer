@@ -22,7 +22,8 @@ public class VolunteerService {
 
     public Volunteer getVolunteerByName(String username) {
         User user = userService.getUserByUsername(username);
-         return  volunteerRepository.findById(user.getUserId()).orElse(null);
+
+         return volunteerRepository.findByUser(user);
     }
 //    @SneakyThrows
     public Volunteer getVolunteerById(Long volunteerId) {

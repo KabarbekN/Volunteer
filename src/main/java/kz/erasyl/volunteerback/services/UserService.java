@@ -61,6 +61,14 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User findUserByConfirmationToken(String token){
+        if (userRepository.findByConfirmationToken(token).isPresent()){
+            return userRepository.findByConfirmationToken(token).get();
+        } else {
+            return null;
+        }
+    }
+
 //    @SneakyThrows
 //    public void saveAvatar(MultipartFile file, Principal connectedUser){
 //        var user =  (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();

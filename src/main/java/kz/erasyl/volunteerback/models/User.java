@@ -32,6 +32,11 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private String confirmationToken;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean isEmailVerified;
+
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

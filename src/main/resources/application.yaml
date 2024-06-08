@@ -1,6 +1,19 @@
 spring:
 #  main:
 #    allow-circular-references: true
+  mail:
+    host: 'smtp.gmail.com'
+    password: 'wrfazduqwkhgjriz'
+    username: 'nurbekordabek7@gmail.com'
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+
+
   application:
     name: volunteer-back
   datasource:

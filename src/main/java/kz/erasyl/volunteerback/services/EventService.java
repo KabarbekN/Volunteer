@@ -61,7 +61,6 @@ public class EventService {
 
 
     public Event createEventByGuest(Event request) {
-        System.out.println(request);
         Event event = new Event();
 
         event.setEventDescription(request.getEventDescription());

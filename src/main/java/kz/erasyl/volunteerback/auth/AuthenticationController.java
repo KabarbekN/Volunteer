@@ -8,10 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 
@@ -45,5 +43,18 @@ public class AuthenticationController {
             HttpServletResponse response
     ) throws IOException {
         authenticationService.refreshToken(request, response);
+    }
+
+    @GetMapping("/confirm")
+    public RedirectView confirmMessage(@RequestParam String token) {
+        boolean isConfirmed = authenticationService.confirmEmail(token);
+
+        RedirectView redirectView = new RedirectView();
+        if (isConfirmed) {
+            redirectView.setUrl("http://localhost:4200/confirmation");  // Redirect to success page
+        } else {
+            redirectView.setUrl("http://localhost:4200/events");    // Redirect to error page
+        }
+        return redirectView;
     }
 }

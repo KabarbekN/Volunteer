@@ -24,4 +24,8 @@ public class RegisterRequest {
 
     @ValidRole(message = "zzzz")
     private Role role;
+
+    @NotEmpty(message = "Email is mandatory")
+    @NotNull(message = "Email is mandatory")
+    private String email;
 }
