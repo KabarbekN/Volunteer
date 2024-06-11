@@ -1,4 +1,5 @@
 spring:
+
 #  main:
 #    allow-circular-references: true
   mail:
@@ -12,8 +13,6 @@ spring:
           starttls:
             enable: true
           auth: true
-
-
   application:
     name: volunteer-back
   datasource:
@@ -23,7 +22,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/volunteer
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 
 application:
   security:
